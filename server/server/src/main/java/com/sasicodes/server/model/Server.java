@@ -31,7 +31,7 @@ public class Server {
     @NotEmpty(message = "IP address cannot be empty")
     private String ipAddress;
     private String name;
-    private Long memory;
+    private String memory;
     private String type;
     private String imageUrl;
     private Status status;
