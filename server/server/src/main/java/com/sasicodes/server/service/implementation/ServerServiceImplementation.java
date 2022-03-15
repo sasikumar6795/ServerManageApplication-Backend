@@ -8,12 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static com.sasicodes.server.enumeration.Status.SERVER_DOWN;
 import static com.sasicodes.server.enumeration.Status.SERVER_UP;
@@ -34,7 +36,12 @@ public class ServerServiceImplementation implements ServerService {
     }
 
     private String setServerImageUrl() {
-        return null;
+        String[] imageNames={"server1.png","server2.png","server3.png","server4.png"};
+
+        return ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/server/image/" + imageNames[new Random().nextInt(4)])
+                .toUriString();
     }
 
     @Override
@@ -50,8 +57,7 @@ public class ServerServiceImplementation implements ServerService {
     @Override
     public Collection<Server> list(int limit) {
         log.info("fetching all servers");
-        List<Server> servers = serverRepository.findAll(PageRequest.of(0, limit)).toList();
-        return servers;
+        return serverRepository.findAll(PageRequest.of(0, limit)).toList();
     }
 
     @Override
